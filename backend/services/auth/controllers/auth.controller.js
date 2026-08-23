@@ -1,6 +1,7 @@
 import { app } from "../configs/firebase.js";
 import {getAuth} from 'firebase-admin/auth'
 import User from "../models/user.model.js";
+import crypto from "crypto";
 
 export const GoogleAuth = async(req, res)=>{
     try {
@@ -19,8 +20,17 @@ export const GoogleAuth = async(req, res)=>{
                 email:decoded.email
             })
         }
+        const sessionId = crypto.randomUUID()
+        res.cookie("session", sessionId,{
+            httponly:true,
+            secure:false,
+            sameSite:"strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+
+        res.status(200).json({success:true, user})
 
     } catch (error) {
-        
+        res.status(500).json("Google Auth error", error)
     }
 }
