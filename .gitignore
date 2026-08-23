@@ -40,3 +40,4 @@ temp/
 # Package manager lock files (optional - uncomment if needed)
 # package-lock.json
 # yarn.lock
+backend/services/auth/serviceAccountKey.json
